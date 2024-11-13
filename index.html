@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таймер до 1 декабря</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            font-size: 24px;
+            color: #333;
+        }
+        #countdown {
+            font-size: 48px;
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+    <h1>До спокойной жизни осталось...</h1>
+    <div id="countdown">Загрузка...</div>
+
+    <script>
+        // Устанавливаем дату, до которой ведем отсчет
+        var countDownDate = new Date("December 1, 2024 00:00:00").getTime();
+
+        // Обновляем таймер каждую секунду
+        var x = setInterval(function() {
+
+            // Текущее время
+            var now = new Date().getTime();
+
+            // Вычисляем разницу во времени
+            var distance = countDownDate - now;
+
+            // Вычисляем дни, часы, минуты и секунды
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Отображаем результат
+            document.getElementById("countdown").innerHTML = days + "д " + hours + "ч "
+            + minutes + "м " + seconds + "с ";
+
+            // Если отсчет закончился, выводим сообщение
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "Время истекло";
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
