@@ -3,57 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Таймер до 1 декабря</title>
+    <title>Таймер до 1 декабря 2024</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            /* Фоновый синий градиент */
+            background: linear-gradient(to bottom, #6a11cb, #2575fc);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
             text-align: center;
-            padding: 50px;
-            background-color: #f0f0f0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         h1 {
-            font-size: 24px;
-            color: #333;
+            font-size: 36px;
+            margin-bottom: 20px;
+            animation: fadeInDown 2s forwards;
         }
         #countdown {
             font-size: 48px;
-            color: #ff0000;
+            margin-bottom: 20px;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            animation-delay: 2s;
+            min-height: 60px; /* Оставляем место для таймера */
+            display: flex;
+            justify-content: center;
+        }
+        .time-part {
+            margin: 0 10px;
+        }
+        /* Анимации */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            } to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            } to {
+                opacity: 1;
+            }
+        }
+        /* Стиль для цитаты */
+        .quote {
+            font-size: 24px;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            animation-delay: 4s;
+        }
+        /* Адаптивность для мобильных устройств */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 28px;
+            }
+            #countdown {
+                font-size: 36px;
+            }
+            .quote {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 <body>
     <h1>До спокойной жизни осталось...</h1>
-    <div id="countdown">Загрузка...</div>
+    <div id="countdown">
+        <div class="time-part days"></div>
+        <div class="time-part hours"></div>
+        <div class="time-part minutes"></div>
+        <div class="time-part seconds"></div>
+    </div>
+    <!-- Дополнительный текст или цитата -->
+    <p class="quote">"Каждый рассвет приносит новые возможности"</p>
 
     <script>
-        // Устанавливаем дату, до которой ведем отсчет
-        var countDownDate = new Date("December 1, 2024 00:00:00").getTime();
+        // Начинаем таймер после задержки
+        setTimeout(startCountdown, 2000); // Начинаем через 2 секунды
 
-        // Обновляем таймер каждую секунду
-        var x = setInterval(function() {
+        function startCountdown() {
+            // Устанавливаем дату, до которой ведём отсчёт
+            var countDownDate = new Date("December 1, 2024 00:00:00").getTime();
 
-            // Текущее время
-            var now = new Date().getTime();
+            // Обновляем таймер каждую секунду
+            var x = setInterval(function() {
 
-            // Вычисляем разницу во времени
-            var distance = countDownDate - now;
+                // Текущее время
+                var now = new Date().getTime();
 
-            // Вычисляем дни, часы, минуты и секунды
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                // Вычисляем разницу во времени
+                var distance = countDownDate - now;
 
-            // Отображаем результат
-            document.getElementById("countdown").innerHTML = days + "д " + hours + "ч "
-            + minutes + "м " + seconds + "с ";
+                // Вычисляем дни, часы, минуты и секунды
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Если отсчет закончился, выводим сообщение
-            if (distance < 0) {
-                clearInterval(x);
-                document.getElementById("countdown").innerHTML = "Время истекло";
-            }
-        }, 1000);
+                // Проверяем, что значения не отрицательные
+                if (distance >= 0) {
+                    // Отображаем результат
+                    document.querySelector(".days").innerHTML = days + " дн";
+                    document.querySelector(".hours").innerHTML = hours + " ч";
+                    document.querySelector(".minutes").innerHTML = minutes + " м";
+                    document.querySelector(".seconds").innerHTML = seconds + " с";
+                } else {
+                    // Если отсчёт закончился, выводим сообщение
+                    clearInterval(x);
+                    document.getElementById("countdown").innerHTML = "Настало время спокойствия!";
+                }
+            }, 1000);
+        }
     </script>
 </body>
 </html>
