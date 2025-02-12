@@ -1,93 +1,520 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Осенний сайт</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            /* Фон с осенним настроением */
-            background: url('autumn-background.png') no-repeat center center fixed;
-            background-size: cover;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #8B4513; /* Темно-коричневый цвет текста */
-            text-align: center;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        h1 {
-            font-size: 36px;
-            margin-bottom: 40px;
-            color: #FF8C00; /* Оранжевый цвет */
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3); /* Легкая тень */
-        }
-        #countdown {
-            font-size: 48px;
-            margin-bottom: 40px;
-            color: #FFD700; /* Золотистый цвет */
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
-        }
-        .quote {
-            font-size: 24px;
-            color: #D2691E; /* Темно-оранжевый */
-            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-            margin-bottom: 50px; /* Отступ снизу, поднимаем текст выше */
-        }
-        /* Адаптивность для мобильных устройств */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 28px;
-                margin-bottom: 30px;
-            }
-            #countdown {
-                font-size: 36px;
-                margin-bottom: 30px;
-            }
-            .quote {
-                font-size: 20px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Магический шкаф на День Святого Валентина</title>
+  <style>
+    :root {
+      --bg-color: #f7e7c8;
+      --accent-color: #8B4513;
+      --button-bg: #8B4513;
+      --button-hover: #A0522D;
+      --fade-duration: 1s;
+      --magic-glow: gold;
+    }
+    /* Общие стили для всех этапов */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Georgia, serif;
+      background: var(--bg-color);
+      overflow-x: hidden;
+    }
+    .stage {
+      display: none;
+      width: 100%;
+      height: 100vh;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      animation: fadeIn var(--fade-duration) forwards;
+      text-align: center;
+      padding-top: 50px;
+    }
+    .stage.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    button {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 1em;
+      cursor: pointer;
+      background-color: var(--button-bg);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+    button:hover {
+      background-color: var(--button-hover);
+      transform: scale(1.05);
+    }
+    /* Этап 1: Письмо на пергаменте */
+    .letter {
+      background: rgba(255,255,255,0.9);
+      padding: 30px;
+      border: 3px solid var(--accent-color);
+      border-radius: 10px;
+      max-width: 600px;
+      margin: 50px auto;
+      font-size: 1.2em;
+      line-height: 1.5;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    /* Этап 2: Шкаф (закрытый) */
+    #stage2 img {
+      max-width: 300px;
+      width: 100%;
+      transition: opacity 1s ease;
+    }
+    /* Этап 3: Холст для рисования спирали */
+    #magicCanvas {
+      display: block;
+      margin: 20px auto;
+      background: #222;
+      border: 2px solid #555;
+      border-radius: 10px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+    }
+    /* Этап 4: Промежуточный экран – сообщение о проклятом цветке */
+    #stage4 img {
+      max-width: 300px;
+      width: 100%;
+      transition: opacity 1s ease;
+      margin-bottom: 20px;
+    }
+    #stage4 .caption {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+      color: #3e2723;
+    }
+    /* Этап 5: Приготовление зелья */
+    #cauldron {
+      width: 300px;
+      height: 200px;
+      margin: 20px auto;
+      background-image: url('cauldron.jpg');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .ingredients-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 20px;
+    }
+    .ingredient {
+      width: 80px;
+      height: 80px;
+      margin: 10px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: grab;
+      transition: transform 0.3s;
+    }
+    .ingredient:active {
+      transform: scale(1.1);
+    }
+    #cauldron.dragover {
+      outline: 5px dashed var(--magic-glow);
+    }
+    /* Этап 6: Экран применения зелья */
+    #stage6 img {
+      max-width: 300px;
+      width: 100%;
+      transition: opacity 1s ease;
+      margin-bottom: 20px;
+    }
+    #stage6 .caption {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+      color: #3e2723;
+    }
+    /* Этап 7: Финальное сообщение */
+    #final-message {
+      font-size: 1.5em;
+      color: #3e2723;
+    }
+    /* Глобальный контейнер для плавных переходов изображения шкафа (оверлей) */
+    #wardrobeTransition {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+      display: none;
+    }
+    #wardrobeTransition img {
+      max-width: 300px;
+      width: 100%;
+      transition: opacity 1s ease;
+    }
+  </style>
 </head>
 <body>
-    <h1>До новой главы в жизни осталось...</h1>
-    <div id="countdown">00 дн 00 ч 00 м 00 с</div>
-    <p class="quote">"Каждый рассвет приносит новые возможности"</p>
-
-    <script>
-        // Устанавливаем дату, до которой ведём отсчёт
-        var countDownDate = new Date("November 26, 2024 00:00:00").getTime();
-
-        // Обновляем таймер каждую секунду
-        var x = setInterval(function () {
-            // Текущее время
-            var now = new Date().getTime();
-
-            // Разница во времени
-            var distance = countDownDate - now;
-
-            // Вычисляем дни, часы, минуты и секунды
-            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // Проверяем, что значения не отрицательные
-            if (distance >= 0) {
-                // Обновляем текст таймера
-                document.getElementById("countdown").innerHTML =
-                    days + " дн " + hours + " ч " + minutes + " м " + seconds + " с";
-            } else {
-                // Таймер завершился
-                clearInterval(x);
-                document.getElementById("countdown").innerHTML = "Настало время спокойствия!";
+  <!-- Глобальный контейнер для плавных переходов шкафа (оверлей) -->
+  <div id="wardrobeTransition">
+    <img id="wardrobeImage" src="wardrobe_closed.jpg" alt="Шкаф">
+  </div>
+  
+  <!-- Этап 1: Письмо -->
+  <div id="stage1" class="stage active">
+    <div class="letter">
+      <p>Дорогая Екатерина,</p>
+      <p>В этот волшебный день я дарю тебе не просто букет цветов, а магию, которая воплощает наши чувства. Найди волшебный шкаф, в котором скрыт мой подарок, и открой его, чтобы раскрыть все тайны нашей любви.</p>
+      <p>С любовью, [Твоё имя]</p>
+    </div>
+    <button id="toStage2">Продолжить</button>
+  </div>
+  
+  <!-- Этап 2: Шкаф (закрытый) -->
+  <div id="stage2" class="stage">
+    <h2>Шкаф</h2>
+    <img id="wardrobeDisplay" src="wardrobe_closed.jpg" alt="Закрытый шкаф">
+    <button id="toStage3">Применить Алохомора</button>
+  </div>
+  
+  <!-- Этап 3: Интерактив (рисование спирали) -->
+  <div id="stage3" class="stage">
+    <h2>Активируй заклинание</h2>
+    <p>Проведи пальцем (или мышью) по волшебной спирали</p>
+    <canvas id="magicCanvas" width="300" height="300"></canvas>
+  </div>
+  
+  <!-- Этап 4: Промежуточный экран – сообщение о проклятом цветке -->
+  <div id="stage4" class="stage">
+    <img id="wardrobeDisplayStage4" src="wardrobe_open_wilted.jpg" alt="Шкаф с завядшим цветком">
+    <div class="caption">Злые чары наложили заклятие на цветок! Приготовь зелье, чтобы его спасти.</div>
+    <button id="toStage5">Приготовить зелье</button>
+  </div>
+  
+  <!-- Этап 5: Приготовление зелья -->
+  <div id="stage5" class="stage">
+    <h2>Приготовление зелья</h2>
+    <p>Перетащи ингредиенты в котёл</p>
+    <div id="cauldron"></div>
+    <div class="ingredients-container">
+      <div class="ingredient" draggable="true" data-ingredient="Лунный свет" style="background-image: url('ingredient_lunny_svet.jpg');"></div>
+      <div class="ingredient" draggable="true" data-ingredient="Капля росы" style="background-image: url('ingredient_caplya_rosy.jpg');"></div>
+      <div class="ingredient" draggable="true" data-ingredient="Пыльца звёзд" style="background-image: url('ingredient_pyltsa_zvezd.jpg');"></div>
+      <div class="ingredient" draggable="true" data-ingredient="Лавандовая эссенция" style="background-image: url('ingredient_lavandovaya_essence.jpg');"></div>
+      <div class="ingredient" draggable="true" data-ingredient="Анис" style="background-image: url('ingredient_anis.jpg');"></div>
+    </div>
+    <button id="brewPotion" style="margin-top:20px;">Сварить зелье</button>
+  </div>
+  
+  <!-- Этап 6: Применение зелья -->
+  <div id="stage6" class="stage">
+    <img id="wardrobeDisplayStage6" src="wardrobe_open_wilted.jpg" alt="Шкаф с завядшим цветком">
+    <div class="caption">Нажмите «Применить зелье», чтобы спасти цветок.</div>
+    <button id="applyPotionBtn">Применить зелье</button>
+  </div>
+  
+  <!-- Этап 7: Финальное сообщение -->
+  <div id="stage7" class="stage">
+    <div id="final-message">
+      <h2>Ура! Мы победили черную магию!</h2>
+      <p>С Днём Святого Валентина, дорогая Екатерина!</p>
+    </div>
+  </div>
+  
+  <script>
+    (function(){
+      // Функция для переключения этапов
+      function showStage(stageId) {
+        document.querySelectorAll('.stage').forEach(function(stage){
+          stage.classList.remove('active');
+        });
+        document.getElementById(stageId).classList.add('active');
+      }
+      
+      // Функция смены изображения шкафа (в оверлее) с эффектом fade-out/fade-in
+      function changeWardrobeImage(newSrc, callback) {
+        var img = document.getElementById("wardrobeImage");
+        img.style.opacity = 0;
+        setTimeout(function(){
+          img.src = newSrc;
+          img.style.opacity = 1;
+          if(callback) callback();
+        }, 1000); // Переход длится 1 секунду
+      }
+      
+      // Функция последовательного выполнения переходов
+      // seq – массив объектов вида { src: "имя_файла", delay: время_задержки (в мс) }
+      function runTransitionSequence(seq, finalCallback) {
+        var i = 0;
+        var wt = document.getElementById("wardrobeTransition");
+        wt.style.display = "block";
+        function next() {
+          if(i < seq.length){
+            changeWardrobeImage(seq[i].src, function(){
+              setTimeout(function(){
+                i++;
+                next();
+              }, seq[i].delay);
+            });
+          } else {
+            wt.style.display = "none";
+            if(finalCallback) finalCallback();
+          }
+        }
+        next();
+      }
+      
+      // Этап 1 → Этап 2
+      document.getElementById("toStage2").addEventListener("click", function(){
+        showStage("stage2");
+      });
+      
+      // Этап 2: Кнопка "Применить Алохомора" → переход к Этапу 3
+      document.getElementById("toStage3").addEventListener("click", function(){
+        showStage("stage3");
+      });
+      
+      // Этап 3: Интерактив (рисование спирали)
+      var canvas = document.getElementById("magicCanvas");
+      var ctx = canvas.getContext("2d");
+      var isDrawing = false;
+      var currentTouch = null;
+      var currentSegmentIndex = 0;
+      var tolerance = 20;
+      var pathPoints = [];
+      
+      // Генерируем точки спирали (зеркальная, от наружи к центру)
+      (function generateSpiralPoints(){
+        var centerX = canvas.width / 2;
+        var centerY = canvas.height / 2;
+        var numPoints = 11; // 10 сегментов
+        var maxTheta = 4 * Math.PI;
+        var b = 10;
+        for(var i = 0; i < numPoints; i++){
+          var t = maxTheta - (i / (numPoints - 1)) * maxTheta;
+          var r = b * t;
+          var x = centerX - r * Math.cos(t);
+          var y = centerY + r * Math.sin(t);
+          pathPoints.push({x: x, y: y});
+        }
+      })();
+      
+      function drawPath(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Рисуем всю спираль пунктирной линией
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "rgba(200,200,200,0.5)";
+        ctx.setLineDash([10,5]);
+        ctx.beginPath();
+        ctx.moveTo(pathPoints[0].x, pathPoints[0].y);
+        for(var i = 1; i < pathPoints.length; i++){
+          ctx.lineTo(pathPoints[i].x, pathPoints[i].y);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+        
+        // Рисуем пройденный путь золотой линией
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "gold";
+        ctx.beginPath();
+        ctx.moveTo(pathPoints[0].x, pathPoints[0].y);
+        for(var i = 1; i <= currentSegmentIndex; i++){
+          ctx.lineTo(pathPoints[i].x, pathPoints[i].y);
+        }
+        if(isDrawing && currentTouch && currentSegmentIndex < pathPoints.length - 1){
+          ctx.lineTo(currentTouch.x, currentTouch.y);
+        }
+        ctx.stroke();
+        
+        // Эффект свечения в точке касания
+        if(isDrawing && currentTouch){
+          var grad = ctx.createRadialGradient(currentTouch.x, currentTouch.y, 0, currentTouch.x, currentTouch.y, 15);
+          grad.addColorStop(0, "rgba(255,215,0,1)");
+          grad.addColorStop(1, "rgba(255,215,0,0)");
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(currentTouch.x, currentTouch.y, 15, 0, 2*Math.PI);
+          ctx.fill();
+        }
+      }
+      
+      function getCanvasPos(evt){
+        var rect = canvas.getBoundingClientRect();
+        if(evt.touches && evt.touches.length > 0){
+          return {
+            x: evt.touches[0].clientX - rect.left,
+            y: evt.touches[0].clientY - rect.top
+          };
+        } else {
+          return {
+            x: evt.clientX - rect.left,
+            y: evt.clientY - rect.top
+          };
+        }
+      }
+      
+      function distanceToSegment(px, py, x1, y1, x2, y2){
+        var A = px - x1;
+        var B = py - y1;
+        var C = x2 - x1;
+        var D = y2 - y1;
+        var dot = A * C + B * D;
+        var len_sq = C * C + D * D;
+        var param = len_sq !== 0 ? dot / len_sq : -1;
+        var xx, yy;
+        if(param < 0){ xx = x1; yy = y1; }
+        else if(param > 1){ xx = x2; yy = y2; }
+        else { xx = x1 + param * C; yy = y1 + param * D; }
+        var dx = px - xx, dy = py - yy;
+        return Math.sqrt(dx*dx + dy*dy);
+      }
+      
+      function onStart(evt){
+        evt.preventDefault();
+        isDrawing = true;
+        currentTouch = getCanvasPos(evt);
+        currentSegmentIndex = 0;
+        drawPath();
+      }
+      
+      function onMove(evt){
+        if(!isDrawing) return;
+        evt.preventDefault();
+        currentTouch = getCanvasPos(evt);
+        var start = pathPoints[currentSegmentIndex];
+        var end = pathPoints[currentSegmentIndex+1];
+        var d = distanceToSegment(currentTouch.x, currentTouch.y, start.x, start.y, end.x, end.y);
+        if(d <= tolerance){
+          var distToEnd = Math.hypot(currentTouch.x - end.x, currentTouch.y - end.y);
+          if(distToEnd < tolerance){
+            currentSegmentIndex++;
+            if(currentSegmentIndex >= pathPoints.length - 1){
+              drawPath();
+              // После успешного рисования спирали запускаем переход:
+              // Сначала показываем закрытый шкаф (фото 1) на 1 сек, затем плавно меняем его на шкаф с открытыми дверями и завядшим цветком (фото 2)
+              runTransitionSequence([
+                {src: "wardrobe_closed.jpg", delay: 1000},
+                {src: "wardrobe_open_wilted.jpg", delay: 500}
+              ], function(){
+                showStage("stage4");
+              });
+              isDrawing = false;
+              return;
             }
-        }, 1000);
-    </script>
+          }
+        }
+        drawPath();
+      }
+      
+      function onEnd(evt){
+        if(!isDrawing) return;
+        evt.preventDefault();
+        if(currentSegmentIndex < pathPoints.length - 1){
+          alert("Неверно проведено заклинание, попробуйте снова.");
+        }
+        isDrawing = false;
+        currentSegmentIndex = 0;
+        currentTouch = null;
+        drawPath();
+      }
+      
+      canvas.addEventListener("mousedown", onStart);
+      canvas.addEventListener("mousemove", onMove);
+      canvas.addEventListener("mouseup", onEnd);
+      canvas.addEventListener("touchstart", onStart);
+      canvas.addEventListener("touchmove", onMove);
+      canvas.addEventListener("touchend", onEnd);
+      drawPath();
+      
+      // Этап 4: Кнопка "Приготовить зелье" → переход к Этапу 5
+      document.getElementById("toStage5").addEventListener("click", function(){
+        showStage("stage5");
+      });
+      
+      // Этап 5: Приготовление зелья – Drag & Drop ингредиентов
+      var droppedIngredients = [];
+      var requiredIngredients = ["Лунный свет", "Капля росы", "Пыльца звёзд", "Лавандовая эссенция"];
+      document.querySelectorAll(".ingredient").forEach(function(el){
+        el.addEventListener("dragstart", function(e){
+          e.dataTransfer.setData("text/plain", this.getAttribute("data-ingredient"));
+        });
+      });
+      var cauldron = document.getElementById("cauldron");
+      cauldron.addEventListener("dragover", function(e){
+        e.preventDefault();
+        cauldron.classList.add("dragover");
+      });
+      cauldron.addEventListener("dragleave", function(){
+        cauldron.classList.remove("dragover");
+      });
+      cauldron.addEventListener("drop", function(e){
+        e.preventDefault();
+        cauldron.classList.remove("dragover");
+        var ingredient = e.dataTransfer.getData("text/plain");
+        if(ingredient === "Анис"){
+          alert("Неверный ингредиент! Анис разрушает магию. Попробуй снова.");
+          droppedIngredients = [];
+          document.querySelectorAll(".ingredient").forEach(function(el){
+            el.style.visibility = "visible";
+          });
+        } else {
+          if(!droppedIngredients.includes(ingredient)){
+            droppedIngredients.push(ingredient);
+            var dragged = document.querySelector('.ingredient[data-ingredient="' + ingredient + '"]');
+            if(dragged){ dragged.style.visibility = "hidden"; }
+          }
+        }
+      });
+      
+      document.getElementById("brewPotion").addEventListener("click", function(){
+        var sel = droppedIngredients.slice().sort();
+        var correct = requiredIngredients.slice().sort();
+        if(JSON.stringify(sel) === JSON.stringify(correct)){
+          alert("Зелье сварено успешно!");
+          // После зелья переходим к Этапу 6
+          showStage("stage6");
+        } else {
+          alert("Вы выбрали не все необходимые ингредиенты. Попробуйте снова.");
+        }
+      });
+      
+      // Этап 6: Кнопка "Применить зелье"
+      document.getElementById("applyPotionBtn").addEventListener("click", function(){
+        // Запускаем переход от шкафа с завядшим цветком (фото 2) к шкафу с восстановленным цветком (фото 3)
+        runTransitionSequence([
+          {src: "wardrobe_open_restored.jpg", delay: 500}
+        ], function(){
+          showStage("stage7");
+        });
+      });
+      
+      // Функция последовательного выполнения переходов (цепочка)
+      function runTransitionSequence(seq, finalCallback) {
+        var i = 0;
+        var wt = document.getElementById("wardrobeTransition");
+        wt.style.display = "block";
+        function next() {
+          if(i < seq.length){
+            changeWardrobeImage(seq[i].src, function(){
+              setTimeout(function(){
+                i++;
+                next();
+              }, seq[i].delay);
+            });
+          } else {
+            wt.style.display = "none";
+            if(finalCallback) finalCallback();
+          }
+        }
+        next();
+      }
+    })();
+  </script>
 </body>
 </html>
