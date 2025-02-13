@@ -69,21 +69,14 @@
     }
     .ingredients-container {
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
-      max-width: 600px;
-      margin: 20px auto;
+      justify-content: space-between;
+      padding: 0 10px;
     }
     .ingredient {
-      width: 80px;
-      height: 80px;
+      flex: 0 0 calc(25% - 20px);
+      max-width: calc(25% - 20px);
       margin: 10px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      cursor: grab;
-      border: 1px solid #ccc;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     }
     #ingredientsText {
       background: rgba(253, 246, 227, 0.9);
@@ -114,7 +107,7 @@
     <img src="wardrobe_closed.png" alt="Закрытый шкаф">
     <div class="parchment">
       <p>О нет, случилось ужасное, кто-то заколдовал шкаф. Что же делать?</p>
-      <p>Попробуй изучить заклинание <strong>Алохомора</strong>, чтобы открыть шкаф.</p>
+      <p>Попробуй изучить заклинание <strong>Алохомора</strong>, чтобы открыть его.</p>
     </div>
     <button id="next2">Изучить заклинание</button>
   </div>
@@ -151,6 +144,7 @@
     </div>
     <div class="parchment" id="ingredientsText">
       <p>Для зелья нужны три ингредиента: Лаванда, Кофейные зерна и Еловые ветки.</p>
+      <p>Перетащи их в котёл.</p>
     </div>
     <button id="brewBtn">Сварить зелье</button>
   </div>
