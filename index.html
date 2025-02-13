@@ -69,14 +69,21 @@
     }
     .ingredients-container {
       display: flex;
+      justify-content: center;
       flex-wrap: wrap;
-      justify-content: space-between;
-      padding: 0 10px;
+      max-width: 600px;
+      margin: 20px auto;
     }
     .ingredient {
-      flex: 0 0 calc(25% - 20px);
-      max-width: calc(25% - 20px);
+      width: 60px;
+      height: 60px;
       margin: 10px;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      cursor: grab;
+      border: 1px solid #ccc;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     }
     #ingredientsText {
       background: rgba(253, 246, 227, 0.9);
