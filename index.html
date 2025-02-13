@@ -6,26 +6,24 @@
   <title>Магический шкаф на День Святого Валентина</title>
   <style>
     :root {
-      /* Новый градиент: можно изменить на любой другой по вашему вкусу */
-      --bg-color: linear-gradient(135deg, #232526, #414345);
+      /* Фиолетово-синий градиент */
+      --bg-color: linear-gradient(135deg, #2e003e, #000428);
       --accent-color: #8B4513;
       --button-bg: #8B4513;
       --button-hover: #A0522D;
     }
-    /* Фон страницы */
     body {
       margin: 0;
       padding: 0;
       font-family: Georgia, serif;
       background: var(--bg-color);
       text-align: center;
-      /* Текст по умолчанию можно задать светлым, если потребуется */
       color: #eee;
     }
     .stage {
       display: none;
       min-height: 100vh;
-      padding-top: 120px;
+      padding-top: 40px;
     }
     .stage.active {
       display: block;
@@ -39,7 +37,7 @@
       color: white;
       border: none;
       border-radius: 5px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
       text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
     }
     button:hover {
@@ -61,7 +59,6 @@
       width: 100%;
       display: block;
       margin: 20px auto;
-      /* Если PNG с прозрачным фоном, можно оставить тень для контраста */
       box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
     canvas {
@@ -88,7 +85,6 @@
       border: 1px solid #ccc;
       box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     }
-    /* Блок для вывода текста с перечнем ингредиентов */
     #ingredientsText {
       background: rgba(253, 246, 227, 0.9);
       border: 2px solid var(--accent-color);
@@ -105,10 +101,10 @@
   <!-- Этап 1: Письмо -->
   <div id="stage1" class="stage active">
     <div class="parchment">
-      <p>Дорогая Екатерина,</p>
-      <p>В этот волшебный день я дарю тебе магию любви. В волшебном шкафу спрятан особый цветок, но злые чары его запечатали.</p>
-      <p>Открой шкаф, чтобы найти его.</p>
-      <p>С любовью, [Твоё имя]</p>
+      <p>Дорогая Катя,</p>
+      <p>Не смотря на киллометры между нами в этот день, я хочу порадовать тебя небольшим подарком.</p>
+      <p>В волшебном шкафу спрятан особый цветок, выбранный специально для тебя!</p>
+      <p>Андрей</p>
     </div>
     <button id="next1">Продолжить</button>
   </div>
@@ -117,17 +113,17 @@
   <div id="stage2" class="stage">
     <img src="wardrobe_closed.png" alt="Закрытый шкаф">
     <div class="parchment">
-      <p>В шкафу спрятан загадочный цветок, но злые чары его запечатали.</p>
-      <p>Изучите заклинание <strong>Алохомора</strong>, чтобы открыть шкаф.</p>
+      <p>О нет, случилось ужасное, кто-то заколдовал шкаф. Что же делать?</p>
+      <p>Попробуй изучить заклинание <strong>Алохомора</strong>, чтобы открыть шкаф.</p>
     </div>
-    <button id="next2">Изучить заклинание Алохомора</button>
+    <button id="next2">Изучить заклинание</button>
   </div>
   
   <!-- Этап 3: Интерактивное задание – рисование спирали -->
   <div id="stage3" class="stage">
     <canvas id="gestureCanvas" width="300" height="300"></canvas>
     <div class="parchment" id="gestureInstructions">
-      <p>Проведите пальцем (или мышью) по пунктирной спирали, чтобы применить заклинание.</p>
+      <p>Проведи пальцем по этой волшебной спирали, как настоящий маг, чтобы активировать заклинание.</p>
     </div>
     <!-- Кнопка появится только после успешного прохождения -->
     <div id="applySpellContainer"></div>
@@ -137,15 +133,15 @@
   <div id="stage4" class="stage">
     <img src="wardrobe_open_wilted.png" alt="Открытый шкаф с завядшим цветком">
     <div class="parchment">
-      <p>Вы успешно открыли шкаф, но цветок всё ещё под чарами и выглядит увядающим.</p>
-      <p>Приготовьте зелье, чтобы его спасти.</p>
+      <p>Ура, ты успешно открыла шкаф, но сам цветок под злыми чарами и выглядит увядающим.</p>
+      <p>Приготовь волшебное зелье, чтобы расколдовать его!</p>
     </div>
     <button id="next4">Приготовить зелье</button>
   </div>
   
   <!-- Этап 5: Приготовление зелья -->
   <div id="stage5" class="stage">
-    <!-- Изображение котла теперь PNG с прозрачным фоном, размер 300×300 -->
+    <!-- Картинка котла PNG с прозрачным фоном, размер 300×300 -->
     <div id="cauldron" style="background-image: url('cauldron.png'); background-size: contain; width:200px; height:300px; margin: 0 auto;"></div>
     <div class="ingredients-container">
       <div class="ingredient" draggable="true" data-ingredient="Лаванда" style="background-image: url('ingredient_lavender.jpg');"></div>
@@ -163,8 +159,8 @@
   <div id="stage6" class="stage">
     <img src="wardrobe_open_wilted.png" alt="Шкаф с завядшим цветком">
     <div class="parchment">
-      <p>Зелье сварено, но цветок всё ещё под чарами.</p>
-      <p>Нажмите «Применить зелье», чтобы расколдовать цветок.</p>
+      <p>Ты приготовила отличное зелье!</p>
+      <p>Нажми «Применить зелье», чтобы расколдовать цветок.</p>
     </div>
     <button id="applyBtn">Применить зелье</button>
   </div>
@@ -173,8 +169,8 @@
   <div id="stage7" class="stage">
     <img src="wardrobe_open_restored.png" alt="Шкаф с восстановленным цветком">
     <div class="parchment">
-      <p>Ура! Мы победили черную магию, и цветок восстановился.</p>
-      <p>С Днём Святого Валентина, дорогая Екатерина!</p>
+      <p>Ура! Твоя магия победила злые чары – цветок вновь расцвёл!</p>
+      <p>С 14 февраля, моя волшебная!</p>
     </div>
   </div>
   
@@ -211,6 +207,10 @@
       // Допуск увеличен до 30 пикселей для упрощения
       var tolerance = 30;
       var pathPoints = [];
+      
+      // Сохраняем исходный текст инструкции
+      var instructionsElem = document.getElementById('gestureInstructions');
+      var originalInstructions = instructionsElem.innerHTML;
       
       // Генерация точек спирали (отнаружи к центру)
       (function generateSpiral(){
@@ -283,6 +283,7 @@
       
       canvas.addEventListener('mousedown', function(evt) {
         isDrawing = true;
+        instructionsElem.innerHTML = originalInstructions;
         currentTouch = getCanvasPos(evt);
         currentSegmentIndex = 0;
         drawPath();
@@ -315,7 +316,7 @@
       canvas.addEventListener('mouseup', function(evt) {
         if (!isDrawing) return;
         if (currentSegmentIndex < pathPoints.length - 1) {
-          alert("Неверно проведено заклинание, попробуйте снова.");
+          instructionsElem.innerHTML = originalInstructions + '<p style="color:red;">Неверно проведено заклинание, попробуйте снова.</p>';
         }
         isDrawing = false;
         currentSegmentIndex = 0;
@@ -325,6 +326,7 @@
       canvas.addEventListener('touchstart', function(evt) {
         evt.preventDefault();
         isDrawing = true;
+        instructionsElem.innerHTML = originalInstructions;
         currentTouch = getCanvasPos(evt);
         currentSegmentIndex = 0;
         drawPath();
@@ -358,7 +360,7 @@
         evt.preventDefault();
         if (!isDrawing) return;
         if (currentSegmentIndex < pathPoints.length - 1) {
-          alert("Неверно проведено заклинание, попробуйте снова.");
+          instructionsElem.innerHTML = originalInstructions + '<p style="color:red;">Неверно проведено заклинание, попробуйте снова.</p>';
         }
         isDrawing = false;
         currentSegmentIndex = 0;
@@ -379,7 +381,6 @@
     var droppedIngredients = [];
     // Только три необходимых ингредиента: Лаванда, Кофейные зерна, Еловые ветки
     var requiredIngredients = ["Лаванда", "Кофейные зерна", "Еловые ветки"];
-    // Сохраняем исходное содержимое текстового блока с ингредиентами
     var ingredientsText = document.getElementById('ingredientsText');
     var originalIngredientsHTML = ingredientsText.innerHTML;
     
@@ -396,7 +397,6 @@
       e.preventDefault();
       var ingredient = e.dataTransfer.getData("text/plain");
       if (ingredient === "Анис") {
-        // Если выбран анис, добавляем предупреждение к тексту ингредиентов
         ingredientsText.innerHTML = originalIngredientsHTML + '<br><span style="color:red;">Внимание: Анис может испортить зелье!</span>';
       } else {
         if (!droppedIngredients.includes(ingredient)) {
@@ -404,7 +404,6 @@
           var dragged = document.querySelector('.ingredient[data-ingredient="' + ingredient + '"]');
           if (dragged) { dragged.style.visibility = "hidden"; }
         }
-        // Если ингредиент не Анис – возвращаем исходный текст (убираем предупреждение)
         ingredientsText.innerHTML = originalIngredientsHTML;
       }
     });
@@ -412,14 +411,13 @@
       var sel = droppedIngredients.slice().sort();
       var correct = requiredIngredients.slice().sort();
       if (JSON.stringify(sel) === JSON.stringify(correct)) {
-        // Переход сразу к Этапу 6
         showStage('stage6');
       } else {
-        alert("Вы выбрали не все необходимые ингредиенты. Попробуйте снова.");
+        ingredientsText.innerHTML = originalIngredientsHTML + '<br><span style="color:red;">Не все необходимые ингредиенты добавлены. Попробуйте снова.</span>';
       }
     });
     
-    // Этап 6: Кнопка "Применить зелье" → переход к Этапу 7 (финальное сообщение)
+    // Этап 6: Кнопка "Применить зелье" → переход к Этапу 7
     document.getElementById("applyBtn").addEventListener("click", function(){
       showStage('stage7');
     });
